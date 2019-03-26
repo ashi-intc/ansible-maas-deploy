@@ -1,0 +1,5 @@
+- name: Install Python
+  raw: apt-get install -y python-minimal python-netaddr
+
+- name: set mtu to 1500
+  command: ifconfig eno1 mtu 1500

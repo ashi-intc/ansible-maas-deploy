@@ -1,0 +1,60 @@
+- name: Install ifupdown
+  apt:
+    name: ifupdown
+
+- name: Set ifupdown config
+  template:
+    src: templates/interfaces.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: 0644
+  register: update_interfaces
+
+- name: Set /etc/resolv.conf
+  template:
+    src: templates/resolv.conf.j2
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Remove netplan
+  apt:
+    name: "{{ item }}"
+    state: absent
+    purge: yes
+  with_items:
+    - nplan
+    - netplan.io
+  register: remove_netplan
+
+- name: Disable services
+  systemd:
+    name: networkd-dispatcher
+    enabled: no
+    state: stopped
+
+- name: Disable systemd-resolved
+  systemd:
+    name: systemd-resolved
+    enabled: no
+    state: stopped
+
+- name: Bring interfaces up
+  command: ifup -a
+  async: 1
+  poll: 0
+  ignore_errors: true
+  register: interfaces_down
+  when: update_interfaces.changed # and not remove_netplan.changed
+
+- name: Waiting for server to come back
+  local_action: wait_for host={{ ansible_host }} state=started delay=2 timeout=60 port=22
+  become: false
+  when: interfaces_down.changed
+
+- name: Check if connection can be established
+  shell: echo connected
+  become: false
+  when: interfaces_down.changed

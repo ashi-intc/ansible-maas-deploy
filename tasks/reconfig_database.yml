@@ -1,0 +1,57 @@
+- name: Reconfig database | set database host
+  lineinfile:
+    dest: "/etc/maas/regiond.conf"
+    regexp: "^database_host:"
+    line: "database_host: {{database.host}}"
+  register: db_host
+  tags:
+    - dbconfig
+
+- name: Reconfig database | Set database - name
+  lineinfile:
+    dest: "/etc/maas/regiond.conf"
+    regexp: "^database_name:"
+    line: "database_name: {{database.name | default('maasdb')}}"
+  register: db_name
+  tags:
+    - dbconfig
+
+- name: Reconfig database | Set database - pass
+  lineinfile:
+    dest: "/etc/maas/regiond.conf"
+    regexp: "^database_pass:"
+    line: "database_pass: {{database.password}}"
+  register: db_pass
+  tags:
+    -dbconfig
+
+- name: Reconfig database | Set database - port
+  lineinfile:
+    dest: "/etc/maas/regiond.conf"
+    regexp: "^database_port:"
+    line: "database_port: {{database.port | default('5432') }}"
+  register: db_port
+  tags:
+    - dbconfig
+
+- name: Reconfig database | Set database - user
+  lineinfile:
+    dest: "/etc/maas/regiond.conf"
+    regexp: "^database_user:"
+    line: "database_user: {{database.user | default('maas') }}"
+  register: db_user
+  tags:
+    - dbconfig
+
+- name: Reconfig database | Restart Regiond service
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - maas-regiond
+    - bind9
+  when: >
+    db_host.changed or db_name.changed or db_pass.changed
+    or db_port.changed or db_user.changed
+  tags:
+    - dbconfig

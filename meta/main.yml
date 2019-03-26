@@ -1,0 +1,22 @@
+galaxy_info:
+  author: David Heijkamp
+  description: 
+  company: Naturalis Biodiversity Center
+  license: Apache
+  min_ansible_version: 2.4
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - 18.04
+
+  galaxy_tags:
+    - maas
+    - pxe
+    - dhcp
+    - dns
+
+dependencies:
+  - naturalis.base
+  - geerlingguy.postgresql
+  - ansible-maas

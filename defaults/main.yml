@@ -1,0 +1,3 @@
+---
+# defaults file for ansible-maas-deploy
+postgresql_data_directory: /var/lib/postgresql/10/main

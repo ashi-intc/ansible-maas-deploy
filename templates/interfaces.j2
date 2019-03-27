@@ -1,0 +1,21 @@
+{% for key, value in maas_network_interfaces.items() %}
+auto {{ key }}
+iface {{ key }} inet {{ value.mode }}
+{%   for setting, config in value.config.items() %}
+    {{ setting }} {{ config }}
+{%    endfor %}
+
+{% endfor %}
+# vlan interfaces for maas
+
+{% for v,c in vlans.items() %}
+{%   set d_i = c.maas_dhcp_interface | default(maas_default_dhcp_interface) %}
+{%   set d_o = c.maas_ip_offset | default(default_maas_ip_offset) %}
+auto {{ d_i }}.{{ v }}
+iface {{ d_i }}.{{ v }} inet static
+    vlan-raw-device {{ d_i }}
+		address   {{ c.subnet | ipaddr(d_o) | ipaddr('address') }}
+    network   {{ c.subnet | ipaddr('network') }}
+    netmask   {{ c.subnet | ipaddr('netmask') }}
+
+{% endfor %}

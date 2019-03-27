@@ -1,3 +1,25 @@
 ---
 # defaults file for ansible-maas-deploy
+ansible_user: ubuntu
+ansible_become: true
+
+# MAAS specific defaults
+maas_dns_domain: 'maas.oob-test.naturalis.local'
+maas_url: 'http://{{ maas_master }}:5240/MAAS'
+maas_region_controller: '{{ maas_master }}'
+maas_region_controller_url: 'http://{{ maas_master }}:5240/MAAS'
+maas_repo: 'ppa:maas/stable'
+maas_setup_user: false
+maas_single_node_install: false
+maas_default_dhcp_interface: enp179s0f0
+maas_dnsservers:
+  - 192.87.106.106
+  - 195.169.124.124
+#maas_external_database: true
+
+# PostgreSQL specific defaults
 postgresql_data_directory: /var/lib/postgresql/10/main
+postgresql_version: 10
+postgresql_admin_user: "postgres"
+postgresql_cluster_name: "main"
+postgresql_cluster_reset: false

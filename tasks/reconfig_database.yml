@@ -2,7 +2,7 @@
   lineinfile:
     dest: "/etc/maas/regiond.conf"
     regexp: "^database_host:"
-    line: "database_host: {{database.host}}"
+    line: "database_host: {{ maas_database.host }}"
   register: db_host
   tags:
     - dbconfig
@@ -11,7 +11,7 @@
   lineinfile:
     dest: "/etc/maas/regiond.conf"
     regexp: "^database_name:"
-    line: "database_name: {{database.name | default('maasdb')}}"
+    line: "database_name: {{ maas_database.name | default('maasdb') }}"
   register: db_name
   tags:
     - dbconfig
@@ -20,7 +20,7 @@
   lineinfile:
     dest: "/etc/maas/regiond.conf"
     regexp: "^database_pass:"
-    line: "database_pass: {{database.password}}"
+    line: "database_pass: {{ maas_database.password }}"
   register: db_pass
   tags:
     -dbconfig
@@ -29,7 +29,7 @@
   lineinfile:
     dest: "/etc/maas/regiond.conf"
     regexp: "^database_port:"
-    line: "database_port: {{database.port | default('5432') }}"
+    line: "database_port: {{ maas_database.port | default('5432') }}"
   register: db_port
   tags:
     - dbconfig
@@ -38,7 +38,7 @@
   lineinfile:
     dest: "/etc/maas/regiond.conf"
     regexp: "^database_user:"
-    line: "database_user: {{database.user | default('maas') }}"
+    line: "database_user: {{ maas_database.user | default('maas') }}"
   register: db_user
   tags:
     - dbconfig

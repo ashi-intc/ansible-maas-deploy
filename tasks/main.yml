@@ -1,29 +1,21 @@
 ---
-- name: Include bootstrap
-  include: bootstrap.yml
-  tags:
-    - bootstrap
-
 - name: Include convert from netplan
   include: convert-from-netplan.yml
   tags:
     - netplan
 
-- name: Include naturalis.base role
-  include_role:
-    name: naturalis.base
+- name: Include base
+  include: base.yml
   tags:
     - base
 
-- name: Include postgresql role
-  include_role:
-    name: postgresql
+- name: Include postgresql
+  include: postgresql.yml
   tags:
     - postgresql
 
-- name: Include MAAS role
-  include_role:
-    name: ansible-maas
+- name: Include maas
+  include: maas.yml
   tags:
     - maas
 
@@ -34,12 +26,12 @@
 
 - name: Include access master
   include: access_master.yml
-  when: "'postgresql-master' in inventory_hostname"
+  when: "'maas-master' in inventory_hostname"
   tags:
     - iptables
 
 - name: Include replication
   include: replication.yml
-  when: "'postgresql-slave' in inventory_hostname"
+  when: "'maas-slave' in inventory_hostname"
   tags:
     - replication

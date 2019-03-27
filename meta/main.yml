@@ -16,7 +16,4 @@ galaxy_info:
     - dhcp
     - dns
 
-dependencies:
-  - naturalis.base
-  - geerlingguy.postgresql
-  - ansible-maas
+dependencies: []

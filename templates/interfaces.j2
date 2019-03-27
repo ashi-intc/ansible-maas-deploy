@@ -10,7 +10,7 @@ iface {{ key }} inet {{ value.mode }}
 
 {% for v,c in vlans.items() %}
 {%   set d_i = c.maas_dhcp_interface | default(maas_default_dhcp_interface) %}
-{%   set d_o = c.maas_ip_offset | default(default_maas_ip_offset) %}
+{%   set d_o = c.maas_ip_offset | default(maas_default_ip_offset) %}
 auto {{ d_i }}.{{ v }}
 iface {{ d_i }}.{{ v }} inet static
     vlan-raw-device {{ d_i }}

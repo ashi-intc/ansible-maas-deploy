@@ -21,12 +21,9 @@
 
 - name: Remove netplan
   apt:
-    name: "{{ item }}"
+    name: nplan, netplan.io
     state: absent
     purge: yes
-  with_items:
-    - nplan
-    - netplan.io
   register: remove_netplan
 
 - name: Disable services
@@ -47,11 +44,11 @@
   poll: 0
   ignore_errors: true
   register: interfaces_down
-  when: update_interfaces.changed # and not remove_netplan.changed
+  when: update_interfaces.changed
 
 - name: Waiting for server to come back
   local_action: wait_for host={{ ansible_host }} state=started delay=2 timeout=60 port=22
-  become: false
+  become: false # TODO: Ansible still complains about sudo
   when: interfaces_down.changed
 
 - name: Check if connection can be established

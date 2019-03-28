@@ -1,0 +1,5 @@
+- name: Include naturalis.base role
+  include_role:
+    name: naturalis.base
+  tags:
+    - base

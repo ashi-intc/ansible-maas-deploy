@@ -1,0 +1,4 @@
+# managed by ansible
+{% for dns in maas_dnsservers %}
+nameserver {{ dns }}
+{% endfor %}

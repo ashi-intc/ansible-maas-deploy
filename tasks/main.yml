@@ -1,8 +1,8 @@
 ---
-- name: Include convert from netplan
-  include: convert-from-netplan.yml
+- name: Include network
+  include: network.yml
   tags:
-    - netplan
+    - network
 
 - name: Include base
   include: base.yml
@@ -28,7 +28,7 @@
   include: access_master.yml
   when: "'maas-master' in inventory_hostname"
   tags:
-    - iptables
+    - firewall
 
 - name: Include replication
   include: replication.yml

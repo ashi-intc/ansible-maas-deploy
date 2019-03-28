@@ -1,0 +1,5 @@
+- name: Include postgresql role
+  include_role:
+    name: postgresql
+  tags:
+    - postgresql

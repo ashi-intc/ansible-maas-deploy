@@ -14,7 +14,7 @@ iface {{ key }} inet {{ value.mode }}
 auto {{ d_i }}.{{ v }}
 iface {{ d_i }}.{{ v }} inet static
     vlan-raw-device {{ d_i }}
-		address   {{ c.subnet | ipaddr(d_o) | ipaddr('address') }}
+    address   {{ c.subnet | ipaddr(d_o) | ipaddr('address') }}
     network   {{ c.subnet | ipaddr('network') }}
     netmask   {{ c.subnet | ipaddr('netmask') }}
 

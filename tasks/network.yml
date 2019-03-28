@@ -46,11 +46,6 @@
   register: interfaces_down
   when: update_interfaces.changed
 
-- name: Waiting for server to come back
-  local_action: wait_for host={{ ansible_host }} state=started delay=2 timeout=60 port=22
-  become: false # TODO: Ansible still complains about sudo
-  when: interfaces_down.changed
-
 - name: Check if connection can be established
   shell: echo connected
   become: false
